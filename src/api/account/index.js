@@ -2,12 +2,12 @@ import { Router } from 'express'
 import { middleware as query } from 'querymen'
 import { middleware as body } from 'bodymen'
 import { token } from '../../services/passport'
-import { create, index, show, update, destroy } from './controller'
+import { create, index, show, showMe, update, destroy } from './controller'
 import { schema } from './model'
 export Account, { schema } from './model'
 
 const router = new Router()
-const { name, color, accountType, startingAmount, currency, balance } = schema.tree
+const { name, color, accountType, startingAmount, currency, balance, active } = schema.tree
 
 /**
  * @api {post} /accounts Create account
@@ -28,7 +28,7 @@ const { name, color, accountType, startingAmount, currency, balance } = schema.t
  */
 router.post('/',
   token({ required: true }),
-  body({ name, color, accountType, startingAmount, currency, balance }),
+  body({ name, color, accountType, startingAmount, currency, balance, active }),
   create)
 
 /**
@@ -63,6 +63,21 @@ router.get('/:id',
   show)
 
 /**
+ * @api {get} /accounts/me Retrieve accounts from user
+ * @apiName RetrieveAccount
+ * @apiGroup Account
+ * @apiPermission user
+ * @apiParam {String} access_token user access token.
+ * @apiSuccess {Object} account Account's data.
+ * @apiError {Object} 400 Some parameters may contain invalid values.
+ * @apiError 404 Account not found.
+ * @apiError 401 user access only.
+ */
+router.get('/me/:id',
+  token({ required: true }),
+  showMe)
+
+/**
  * @api {put} /accounts/:id Update account
  * @apiName UpdateAccount
  * @apiGroup Account
@@ -81,7 +96,7 @@ router.get('/:id',
  */
 router.put('/:id',
   token({ required: true }),
-  body({ name, color, accountType, startingAmount, currency, balance }),
+  body({ name, color, accountType, startingAmount, currency, balance, active }),
   update)
 
 /**

@@ -16,13 +16,17 @@ const accountSchema = new Schema({
     type: String
   },
   startingAmount: {
-    type: String
+    type: Number
   },
   currency: {
     type: String
   },
   balance: {
-    type: String
+    type: Number
+  },
+  active: {
+    type: Boolean,
+    default: true
   }
 }, {
   timestamps: true,
@@ -44,6 +48,7 @@ accountSchema.methods = {
       startingAmount: this.startingAmount,
       currency: this.currency,
       balance: this.balance,
+      active: this.active,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
     }

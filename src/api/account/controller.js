@@ -22,6 +22,12 @@ export const show = ({ params }, res, next) =>
     .then(success(res))
     .catch(next)
 
+export const showMe = ({ params }, res, next) =>
+  Account.find({ userId: params.id })
+    .then((accounts) => accounts.map((account) => account.view()))
+    .then(success(res))
+    .catch(next)
+
 export const update = ({ user, bodymen: { body }, params }, res, next) =>
   Account.findById(params.id)
     .populate('userId')

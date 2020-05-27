@@ -7,18 +7,26 @@ const recordSchema = new Schema({
     required: true
   },
   accountId: {
-    type: String
+    type: Schema.ObjectId,
+    ref: 'Account',
+    required: true
   },
   type: {
     type: String
   },
   amount: {
-    type: String
+    type: Number
   },
   currency: {
     type: String
   },
   category: {
+    type: String
+  },
+  icon: {
+    type: String
+  },
+  color: {
     type: String
   },
   notes: {
@@ -28,7 +36,7 @@ const recordSchema = new Schema({
     type: String
   },
   date: {
-    type: String
+    type: Date
   },
   paymentType: {
     type: String
@@ -58,6 +66,8 @@ recordSchema.methods = {
       amount: this.amount,
       currency: this.currency,
       category: this.category,
+      icon: this.icon,
+      color: this.color,
       notes: this.notes,
       place: this.place,
       date: this.date,

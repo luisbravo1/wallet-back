@@ -29,14 +29,14 @@ const config = {
     defaultEmail: 'no-reply@wallet-back.com',
     sendgridKey: requireProcessEnv('SENDGRID_KEY'),
     masterKey: requireProcessEnv('MASTER_KEY'),
-    jwtSecret: requireProcessEnv('JWT_SECRET'),
-    mongo: {
-      options: {
-        db: {
-          safe: true
-        }
-      }
-    }
+    jwtSecret: requireProcessEnv('JWT_SECRET')
+    // mongo: {
+    //   options: {
+    //     db: {
+    //       safe: true
+    //     }
+    //   }
+    // }
   },
   test: { },
   development: {

@@ -2,12 +2,12 @@ import { Router } from 'express'
 import { middleware as query } from 'querymen'
 import { middleware as body } from 'bodymen'
 import { token } from '../../services/passport'
-import { create, index, show, update, destroy } from './controller'
+import { create, index, show, showMe, update, destroy } from './controller'
 import { schema } from './model'
 export Record, { schema } from './model'
 
 const router = new Router()
-const { accountId, type, amount, currency, category, notes, place, date, paymentType, labels, photo } = schema.tree
+const { accountId, type, amount, currency, category, icon, color, notes, place, date, paymentType, labels, photo } = schema.tree
 
 /**
  * @api {post} /records Create record
@@ -33,7 +33,7 @@ const { accountId, type, amount, currency, category, notes, place, date, payment
  */
 router.post('/',
   token({ required: true }),
-  body({ accountId, type, amount, currency, category, notes, place, date, paymentType, labels, photo }),
+  body({ accountId, type, amount, currency, category, icon, color, notes, place, date, paymentType, labels, photo }),
   create)
 
 /**
@@ -68,6 +68,21 @@ router.get('/:id',
   show)
 
 /**
+ * @api {get} /records/me Retrieve records from user
+ * @apiName RetrieveRecords
+ * @apiGroup Records
+ * @apiPermission user
+ * @apiParam {String} access_token user access token.
+ * @apiSuccess {Object} Records records's data.
+ * @apiError {Object} 400 Some parameters may contain invalid values.
+ * @apiError 404 records not found.
+ * @apiError 401 user access only.
+ */
+router.get('/me/:id',
+  token({ required: true }),
+  showMe)
+
+/**
  * @api {put} /records/:id Update record
  * @apiName UpdateRecord
  * @apiGroup Record
@@ -91,7 +106,7 @@ router.get('/:id',
  */
 router.put('/:id',
   token({ required: true }),
-  body({ accountId, type, amount, currency, category, notes, place, date, paymentType, labels, photo }),
+  body({ accountId, type, amount, currency, category, icon, color, notes, place, date, paymentType, labels, photo }),
   update)
 
 /**
