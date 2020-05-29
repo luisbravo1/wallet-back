@@ -41,7 +41,8 @@ const config = {
   test: { },
   development: {
     mongo: {
-      uri: 'mongodb://localhost/wallet-back-dev',
+      // uri: 'mongodb://localhost/wallet-back-dev',
+      uri: 'mongodb+srv://admin:Lg87448744.@cluster0-uwdtw.mongodb.net/wallet-back-dev?retryWrites=true&w=majority',
       options: {
         debug: true
       }
