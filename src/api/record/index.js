@@ -104,7 +104,7 @@ router.get('/me/:id',
  * @apiError 404 Record not found.
  * @apiError 401 user access only.
  */
-router.put('/:id',
+router.put('/:id/:ogType/:ogAmount',
   token({ required: true }),
   body({ accountId, type, amount, currency, category, icon, color, notes, place, date, paymentType, labels, photo }),
   update)

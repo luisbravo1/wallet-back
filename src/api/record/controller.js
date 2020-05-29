@@ -38,10 +38,28 @@ export const update = ({ user, bodymen: { body }, params }, res, next) =>
     .populate('userId')
     .then(notFound(res))
     .then(authorOrAdmin(res, user, 'userId'))
+    .then((record) => {
+      console.log(params.ogAmount)
+      // If original amount was modified
+      if (params.ogAmount !== 0) {
+        if (params.ogType === 'Expense') {
+          var result = params.ogAmount - body.amount
+        } else if (params.ogType === 'Income') {
+          var result = body.amount - params.ogAmount
+        }
+        console.log(result)
+        Account.findByIdAndUpdate({ _id: body.accountId }, { $inc: { balance: result }})
+          .then((account) => record ? Object.assign(record, body).save() : null)
+          .then((account) => record ? record.view(true) : null)
+          .then(success(res))
+          .catch(next)
+      }
+    })
     .then((record) => record ? Object.assign(record, body).save() : null)
     .then((record) => record ? record.view(true) : null)
     .then(success(res))
     .catch(next)
+    
 
 export const destroy = ({ user, params }, res, next) =>
   Record.findById(params.id)

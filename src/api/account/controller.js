@@ -1,5 +1,6 @@
 import { success, notFound, authorOrAdmin } from '../../services/response/'
 import { Account } from '.'
+import { Record } from '../record'
 
 export const create = ({ user, bodymen: { body } }, res, next) =>
   Account.create({ ...body, userId: user })
@@ -42,6 +43,9 @@ export const destroy = ({ user, params }, res, next) =>
   Account.findById(params.id)
     .then(notFound(res))
     .then(authorOrAdmin(res, user, 'userId'))
-    .then((account) => account ? account.remove() : null)
-    .then(success(res, 204))
-    .catch(next)
+    .then((account) => {
+      Record.deleteMany({ accountId: params.id })
+        .then((record) => account ? account.remove() : null)
+        .then(success(res, 201))
+        .catch(next)
+    })
