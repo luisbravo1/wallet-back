@@ -1,8 +1,11 @@
 {
   "name": "wallet-back",
-  "version": "10.12.0",
+  "version": "0.0.0",
   "main": "src",
   "private": true,
+  "engines": {
+    "node": "10.12.0"
+  },
   "scripts": {
     "start": "node .",
     "test": "jest",
